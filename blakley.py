@@ -21,17 +21,17 @@ def modular_product(a, b, n):
 
 
 def modular_exp(m, e, n):
-  c = 1
+  x = 1
   p = m
   e_bin = "{0:0256b}".format(e)
 
   for i in range(k-1, 0, -1):
     if int(e_bin[i]):
-      c = modular_product(c, p, n)
+      x = modular_product(x, p, n)
     p = modular_product(p, p, n)
   if int(e_bin[0]):
-    c = modular_product(c, p, n)
-  return c
+    x = modular_product(x, p, n)
+  return x
 
 
 
