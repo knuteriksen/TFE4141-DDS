@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+use IEEE.numeric_std.ALL;
+
 
 entity exponentiation is
 	generic (
@@ -27,100 +28,123 @@ entity exponentiation is
 
 		--utility
 		clk 		: in STD_LOGIC;
-		reset_n 	: in STD_LOGIC
+		reset_n 	: in STD_LOGIC;
 		
+		
+		
+		------ DEBUG ------	    
+    state_out : out std_logic_vector(3 downto 0);   -- DEBUG
+    counter : out unsigned(7 downto 0);             -- DEBUG
+    register_sum : out integer;                     -- DEBUG
+    csa_total : out integer;                        -- DEBUG
+    enable_register : out std_logic                 -- DEBUG
 	);
 end exponentiation;
 
 
 architecture expBehave of exponentiation is
-    --temporary registers
-    signal p_reg        : std_logic_vector(C_block_size-1 downto 0);
-    signal q_reg        : std_logic_vector(C_block_size-1 downto 0);
-    signal r_reg_mu     : std_logic_vector(C_block_size-1 downto 0);
-    signal r_reg_sq     : std_logic_vector(C_block_size-1 downto 0);
+
+    signal reg_P_out : std_logic_vector(C_block_size-1 downto 0);
+    signal enable_reg_P: std_logic;
     
-    signal start_multi, start_square, end_multi, end_square : std_logic;
-          
+    signal reg_X_out : std_logic_vector(C_block_size-1 downto 0);
+    signal enable_reg_X: std_logic;
+   
+    signal multiplication_data_out : std_logic_vector(C_block_size-1 downto 0);
+    signal enable_multiplication : std_logic;
+    signal multiplication_done : std_logic;
+    
+    signal squaring_data_out : std_logic_vector(C_block_size-1 downto 0);
+    signal enable_squaring : std_logic;
+    signal squaring_done : std_logic;
+    
+    signal mux_P_out : std_logic_vector(C_block_size-1 downto 0);
+    signal mux_P_sel : std_logic;
+    
+    signal mux_X_out : std_logic_vector(C_block_size-1 downto 0);
+    signal mux_X_sel : std_logic_vector(1 downto 0);
+    
 begin
-	
-	-- Exponentiation
-	process (clk) begin
-	
-	   start_multi     <= '0';
-	   start_square    <= '0';
-	   end_multi       <= '0';
-	   end_square      <= '0';
-	   
-	   q_reg <= (0         => '1',
-	             others    => '0');
-	   
-	   p_reg <= message;
-	   
-	   for i in 0 to C_block_size-2 loop
-	       end_multi <= '0';
-	       end_square <= '0';
-	       if (key(i)) then
-	           start_multi <= '1';
-	       end if;
-           start_square <= '1';
-	       
-            	       
-	       -- wait until end_multiplication and end_square is true
-	       -- continue loop   	   
-	   end loop;
-	   
-	   if (key(C_block_size-1)) then
-	       start_multi <= '1';
-	   end if;
-	   
-	end process;
-	
-	
-	-- Multiplication
-	process (clk, start_multi) begin
-	   if (start_multi'event and start_multi='1') then
-	       start_multi <= '0';
-           r_reg_mu <= (others => '0');
-           for i in C_block_size-1 downto 0 loop
-               r_reg_mu <= std_logic_vector(2*unsigned(r_reg_mu) + unsigned(q_reg(i downto i))*unsigned(p_reg));
-         
-               if (r_reg_mu >= modulus) then
-                   r_reg_mu <= std_logic_vector(unsigned(r_reg_mu) -unsigned(modulus));
-               end if;
-               
-               if (r_reg_mu >= modulus) then
-                   r_reg_mu <= std_logic_vector(unsigned(r_reg_mu) -unsigned(modulus));
-               end if;
-           end loop;
-           end_multi <= '1';
-       end if;
-	end process;
-	
-	-- Squaring
-	process (clk, start_square) begin
-	   if (start_square'event and start_square='1') then
-	       start_square <= '0';
-           r_reg_sq <= (others => '0');
-           for i in C_block_size-1 downto 0 loop
-               r_reg_sq <= std_logic_vector(2*unsigned(r_reg_sq) + unsigned(p_reg(i downto i))*unsigned(p_reg));
-         
-               if (r_reg_sq >= modulus) then
-                   r_reg_sq <= std_logic_vector(unsigned(r_reg_sq) -unsigned(modulus));
-               end if;
-               
-               if (r_reg_sq >= modulus) then
-                   r_reg_sq <= std_logic_vector(unsigned(r_reg_sq) -unsigned(modulus));
-               end if;
-           end loop;
-           end_square <= '1';
-       end if;
-	end process;
-	
-	
-   result <= q_reg;
-   ready_in <= ready_out;
-   valid_out <= valid_in;
-
+    controller      : entity work.exp_controller
+    port map(
+    );
+    
+    multiplication  : entity work.modpro
+    port map(
+    A => reg_P_out,
+    B => reg_X_out,
+    N_dot => modulus, -- REMEMBER TO CHANGE
+    
+    enable_modpro => enable_multiplication,
+    clk => clk,
+    reset_n => reset_n,
+    
+    
+    state_out => state_out,
+    counter => counter,
+    register_sum => register_sum,
+    csa_total => csa_total,
+    enable_register => enable_register,
+    
+    modpro_done => multiplication_done,
+    data_out => multiplication_data_out
+    );
+    
+    squaring        : entity work.modpro
+    port map(
+    A => reg_P_out,
+    B => reg_P_out,
+    N_dot => modulus, -- REMEMBER TO CHANGE
+    
+    enable_modpro => enable_squaring,
+    clk => clk,
+    reset_n => reset_n,
+    
+    state_out => state_out,
+    counter => counter,
+    register_sum => register_sum,
+    csa_total => csa_total,
+    enable_register => enable_register,
+    
+    modpro_done => squaring_done,
+    data_out => squaring_data_out
+    );
+    
+    reg_X : entity work.register_reset_n
+    port map(
+       clk                      => clk,
+       reset_n                  => reset_n,
+       enable                   => enable_reg_X,
+       d                        => mux_X_out,
+       q                        => reg_X_out
+    
+    );
+ 
+    reg_P : entity work.register_reset_n
+    port map(
+       clk                      => clk,
+       reset_n                  => reset_n,
+       enable                   => enable_reg_P,
+       d                        => mux_P_out,
+       q                        => reg_P_out
+    
+    );
+    
+    mux_X : entity work.mux_3
+    port map(
+        d0     => reg_X_out,
+        d1     => multiplication_data_out,
+        d2     =>   (0 => '1',
+                    others => '0'),
+        sel    => mux_X_sel,
+        output => mux_X_out
+    );
+    
+    mux_P : entity work.mux_2
+    port map(
+        d0     => message,
+        d1     => squaring_data_out,
+        sel    => mux_P_sel,
+        output => mux_P_out
+    );
 end expBehave;
-
