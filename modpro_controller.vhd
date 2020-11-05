@@ -64,7 +64,6 @@ entity modpro_controller is
     reset_reg : out std_logic;
     
     
-    debug_enable : out std_logic;                   -- DEBUG
     state_out : out std_logic_vector(3 downto 0);   -- DEBUG
     register_sum : out integer;                     -- DEBUG
     csa_total : out integer;                        -- DEBUG
@@ -128,7 +127,6 @@ begin
                    mux_A_sel  <= "00"; -- Select 0
                end if;
                enable_reg <= '1';
-               debug_enable <= '1';                                                 -- DEBUG
                next_state <= TWO_B;
                -- next_state <= WRITE_A; - NOT IN USE
            end if; 
@@ -141,7 +139,6 @@ begin
          csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));
          register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));
          enable_reg <= '0';
-         debug_enable <= '0';
          next_state <= TWO_B;
          state_out <= "0011";*/
           
@@ -149,7 +146,6 @@ begin
        when TWO_B =>
            output_signal <= '0';
            enable_reg <= '0';
-           debug_enable <= '0';                                                     -- DEBUG
            if (input_signal = '0') then
                next_state <= IDLE;
            else
@@ -177,7 +173,6 @@ begin
            else
                if (csa_total < 0) then
                    enable_reg <= '0';
-                   debug_enable <= '0';                                             -- DEBUG
                    if to_integer(counter) < 255 then
                         counter <= counter + '1';
                         next_state <= C_NEG;
@@ -186,7 +181,6 @@ begin
                    end if;                    
                else
                    enable_reg <= '1';
-                   debug_enable <= '1';                                             -- DEBUG
                    next_state <= C_POS;
                end if;
            end if;
@@ -198,7 +192,6 @@ begin
        when C_NEG =>
             next_state <= TWO_A;
             enable_reg <= '0';
-            debug_enable <= '0';                                                    -- DEBUG
             state_out <= "0111";                                                    -- DEBUG                                                                                                 
             csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG
             register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
@@ -207,7 +200,6 @@ begin
        when C_POS =>
             next_state <= WRITE_C;
             enable_reg <= '0';                          
-            debug_enable <= '0';                                                    -- DEBUG
             csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG     
             register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
             state_out <= "1000";                                                    -- DEBUG                                                                                                       
@@ -216,7 +208,6 @@ begin
        when WRITE_C =>
             next_state <= TWO_D;
             enable_reg <= '0';
-            debug_enable <= '0';                                                    -- DEBUG
             csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG
             register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
             state_out <= "1110";                                                    -- DEBUG
@@ -229,10 +220,8 @@ begin
            else
                if (csa_total < 0) then
                    enable_reg <= '0';
-                   debug_enable <= '0';                                             -- DEBUG
                else
                    enable_reg <= '1';
-                   debug_enable <= '1';                                             -- DEBUG
                end if;
                if to_integer(counter) < 255 then
                    counter <= counter + '1';
@@ -253,7 +242,6 @@ begin
             register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));
             next_state <= TWO_A;
             enable_reg <= '0';
-            debug_enable <= '0';
             state_out <= "1010";*/
        
        when THREE =>

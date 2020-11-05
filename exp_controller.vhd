@@ -57,7 +57,16 @@ entity exp_controller is
     output_signal : out std_logic;
     
     enable_reg_P: out std_logic;
-    enable_reg_X: out std_logic
+    enable_reg_X: out std_logic;
+    
+    valid_in : in std_logic;
+    ready_in : out std_logic;
+    
+    ready_out : in std_logic;
+    valid_out : out std_logic;
+    
+    state_out : out std_logic_vector(3 downto 0);   -- DEBUG
+    counter_out : out unsigned (7 downto 0)         -- DEBUG
 
     );
 end exp_controller;
@@ -83,6 +92,7 @@ begin
         else
             next_state <= ONE;
         end if;
+        state_out <= "0000"; -- DEBUG
     
     when ONE =>
         if (input_signal = '0') then
@@ -97,6 +107,7 @@ begin
             enable_reg_P <= '1';
             next_state <= TWO;
         end if;
+        state_out <= "0001"; -- DEBUG
             
         
     when TWO =>
@@ -116,6 +127,7 @@ begin
             enable_squaring <= '1';
             next_state <= WRITE_TWO;
         end if;
+        state_out <= "0010"; -- DEBUG
         
         
     when WRITE_TWO =>
@@ -138,6 +150,7 @@ begin
                 next_state <= WRITE_TWO;
             end if;
         end if;
+        state_out <= "0011"; -- DEBUG
 
     when THREE =>
         if (input_signal = '0') then
@@ -154,6 +167,7 @@ begin
             end if;
             next_state <= WRITE_THREE;        
         end if;
+        state_out <= "0100"; -- DEBUG
         
     when WRITE_THREE =>
         if (input_signal = '0') then
@@ -167,6 +181,7 @@ begin
                 next_state <= WRITE_THREE;
             end if;
         end if;
+        state_out <= "0101"; -- DEBUG
     
     when FOUR =>
         if (input_signal = '0') then
@@ -177,9 +192,11 @@ begin
             next_state <= IDLE;
         end if;
         next_state <= IDLE;
+        state_out <= "0110"; -- DEBUG
     
     when others =>
-        next_state <= IDLE;    
+        next_state <= IDLE;
+        state_out <= "1111"; -- DEBUG    
     end case;
 
 end process CombProc;
@@ -193,4 +210,5 @@ begin
     end if;
 end process SyncProc;      
 
+counter_out <= counter;
 end Behavioral;

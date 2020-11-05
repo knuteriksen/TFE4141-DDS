@@ -32,12 +32,28 @@ entity exponentiation is
 		
 		
 		
-		------ DEBUG ------	    
-    state_out : out std_logic_vector(3 downto 0);   -- DEBUG
-    counter : out unsigned(7 downto 0);             -- DEBUG
-    register_sum : out integer;                     -- DEBUG
-    csa_total : out integer;                        -- DEBUG
-    enable_register : out std_logic                 -- DEBUG
+		------ DEBUG ------
+		
+		input_signal: in std_logic;
+		
+			    
+    multiplication_state_out : out std_logic_vector(3 downto 0);   -- DEBUG
+    squaring_state_out : out std_logic_vector(3 downto 0);   -- DEBUG
+    
+    multiplication_counter : out unsigned(7 downto 0);             -- DEBUG
+    squaring_counter : out unsigned(7 downto 0);             -- DEBUG
+    
+    multiplication_register_sum : out integer;                     -- DEBUG
+    squaring_register_sum : out integer;                     -- DEBUG
+    
+    multiplication_csa_total : out integer;                        -- DEBUG
+    squaring_csa_total : out integer;                        -- DEBUG
+    
+    exp_state_out : out std_logic_vector(3 downto 0);
+    exp_counter : out unsigned(7 downto 0)
+    
+    --reg_P_out : out std_logic_vector(C_block_size-1 downto 0);
+    --reg_X_out : out std_logic_vector(C_block_size-1 downto 0) 
 	);
 end exponentiation;
 
@@ -64,9 +80,39 @@ architecture expBehave of exponentiation is
     signal mux_X_out : std_logic_vector(C_block_size-1 downto 0);
     signal mux_X_sel : std_logic_vector(1 downto 0);
     
+    signal output_signal: std_logic;
+    
 begin
     controller      : entity work.exp_controller
     port map(
+    clk => clk,
+    reset_n => reset_n,
+    
+    mux_P_sel => mux_P_sel,
+    mux_X_sel => mux_X_sel,
+    
+    enable_multiplication => enable_multiplication,
+    multiplication_done => multiplication_done,
+   
+    enable_squaring => enable_squaring,
+    squaring_done => squaring_done,
+    
+    key => key,
+    
+    input_signal => input_signal,
+    output_signal => output_signal,
+    
+    enable_reg_P => enable_reg_P,
+    enable_reg_X => enable_reg_X,
+    
+    valid_in => valid_in,
+    ready_in => ready_in,
+    
+    ready_out => ready_out,
+    valid_out => valid_out,
+    
+    state_out => exp_state_out,
+    counter_out => exp_counter
     );
     
     multiplication  : entity work.modpro
@@ -80,11 +126,10 @@ begin
     reset_n => reset_n,
     
     
-    state_out => state_out,
-    counter => counter,
-    register_sum => register_sum,
-    csa_total => csa_total,
-    enable_register => enable_register,
+    state_out => multiplication_state_out,
+    counter => multiplication_counter,
+    register_sum => multiplication_register_sum,
+    csa_total => multiplication_csa_total,
     
     modpro_done => multiplication_done,
     data_out => multiplication_data_out
@@ -100,17 +145,16 @@ begin
     clk => clk,
     reset_n => reset_n,
     
-    state_out => state_out,
-    counter => counter,
-    register_sum => register_sum,
-    csa_total => csa_total,
-    enable_register => enable_register,
+    state_out => squaring_state_out,
+    counter => squaring_counter,
+    register_sum => squaring_register_sum,
+    csa_total => squaring_csa_total,
     
     modpro_done => squaring_done,
     data_out => squaring_data_out
     );
     
-    reg_X : entity work.register_reset_n
+    reg_X : entity work.register_reset_n_256
     port map(
        clk                      => clk,
        reset_n                  => reset_n,
@@ -120,7 +164,7 @@ begin
     
     );
  
-    reg_P : entity work.register_reset_n
+    reg_P : entity work.register_reset_n_256
     port map(
        clk                      => clk,
        reset_n                  => reset_n,
@@ -147,4 +191,15 @@ begin
         sel    => mux_P_sel,
         output => mux_P_out
     );
+    
+    
+    process(output_signal) begin
+        if (output_signal = '1') then
+            mux_X_sel <= "00";
+            valid_out <= '1';
+            result <= mux_X_out;
+        end if;
+     end process;
+     
+     
 end expBehave;

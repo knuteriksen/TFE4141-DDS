@@ -45,7 +45,7 @@ generic (
 		sel	: in STD_LOGIC_VECTOR (1 downto 0);
 		
 		--output control
-		output : out STD_LOGIC_VECTOR (Max_bits-1 downto 0)
+		output : out STD_LOGIC_VECTOR (C_block_size-1 downto 0)
 		
 		
 		
@@ -61,7 +61,7 @@ begin
         when "00" => output <= d0;
         when "01" => output <= d1;
         when "10" => output <= d2;
-        when others => output <= d2;
+        when others => output <= (others => '0');
     end case;
 end process mux_3_process;
 end Behavioral;

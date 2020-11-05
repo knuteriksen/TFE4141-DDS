@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 04.11.2020 19:48:19
+-- Create Date: 05.11.2020 10:31:28
 -- Design Name: 
--- Module Name: mux_2 - Behavioral
+-- Module Name: exp_tb - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,32 +31,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity mux_2 is
-generic (
-		C_block_size : integer := 256;
-		Max_bits     : integer := 264
+entity exp_tb is
+--  Port ( );
+end exp_tb;
 
-	);
-    port (
-		--input controll
-		d0	: in STD_LOGIC_VECTOR (C_block_size-1 downto 0);
-		d1	: in STD_LOGIC_VECTOR (C_block_size-1 downto 0);
-		sel	: in std_logic;
-		
-		--output control
-		output : out STD_LOGIC_VECTOR (C_block_size-1 downto 0)
-		);
-end mux_2;
-
-architecture Behavioral of mux_2 is
+architecture Behavioral of exp_tb is
 
 begin
-mux_2_process : process(d0,d1,sel)
-begin
-    case sel is
-        when '0' => output <= d0;
-        when '1' => output <= d1;
-        when others => output <= (others => '0');
-    end case;
-end process mux_2_process;
+
+
 end Behavioral;

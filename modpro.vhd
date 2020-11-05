@@ -52,7 +52,6 @@ entity modpro is
     counter : out unsigned(7 downto 0);             -- DEBUG
     register_sum : out integer;                     -- DEBUG
     csa_total : out integer;                        -- DEBUG
-    enable_register : out std_logic;                -- DEBUG
     
     --Output control
     modpro_done : out std_logic;
@@ -107,7 +106,6 @@ begin
         enable_reg => enable_reg,
         reset_reg => reset_reg,
         state_out => state_out,
-        debug_enable => enable_register,
         register_sum => register_sum,
         csa_total => csa_total,
         counter_out => counter    
