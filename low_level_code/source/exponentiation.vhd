@@ -13,6 +13,7 @@ entity exponentiation is
 		--input controll
 		valid_in	: in STD_LOGIC;
 		ready_in	: out STD_LOGIC;
+        input_signal: in std_logic;	
 
 		--input data
 		message 	: in STD_LOGIC_VECTOR ( C_block_size-1 downto 0 );
@@ -30,32 +31,9 @@ entity exponentiation is
 
 		--utility
 		clk 		: in STD_LOGIC;
-		reset_n 	: in STD_LOGIC;
+		reset_n 	: in STD_LOGIC
 		
-		
-		
-		------ DEBUG ------
-		
-		input_signal: in std_logic;
-		
-			    
-    multiplication_state_out : out std_logic_vector(3 downto 0);   -- DEBUG
-    squaring_state_out : out std_logic_vector(3 downto 0);   -- DEBUG
-    
-    multiplication_counter : out unsigned(7 downto 0);             -- DEBUG
-    squaring_counter : out unsigned(7 downto 0);             -- DEBUG
-    
-    multiplication_register_sum : out integer;                     -- DEBUG
-    squaring_register_sum : out integer;                     -- DEBUG
-    
-    multiplication_csa_total : out integer;                        -- DEBUG
-    squaring_csa_total : out integer;                        -- DEBUG
-    
-    exp_state_out : out std_logic_vector(3 downto 0);
-    exp_counter : out unsigned(7 downto 0)
-    
-    --reg_P_out : out std_logic_vector(C_block_size-1 downto 0);
-    --reg_X_out : out std_logic_vector(C_block_size-1 downto 0) 
+ 
 	);
 end exponentiation;
 
@@ -81,10 +59,18 @@ architecture expBehave of exponentiation is
     
     signal mux_X_out : std_logic_vector(C_block_size-1 downto 0);
     signal mux_X_sel : std_logic_vector(1 downto 0);
-        
+    signal modulus_dot : std_logic_vector(C_block_size-1 downto 0);    
     signal output_signal: std_logic;
     
 begin
+    
+    twos_complement_modulus : entity work.twos_complement
+    port map(
+        din => modulus,
+        dout => modulus_dot
+    
+    );
+    
     controller      : entity work.exp_controller
     port map(
     clk => clk,
@@ -105,27 +91,19 @@ begin
     output_signal => output_signal,
     
     enable_reg_P => enable_reg_P,
-    enable_reg_X => enable_reg_X,
+    enable_reg_X => enable_reg_X
 
-    state_out => exp_state_out,
-    counter_out => exp_counter
     );
     
     multiplication  : entity work.modpro
     port map(
     A => reg_P_out,
     B => reg_X_out,
-    N_dot => modulus, -- REMEMBER TO CHANGE
+    N_dot => modulus_dot,
     
     enable_modpro => enable_multiplication,
     clk => clk,
     reset_n => reset_n,
-    
-    
-    state_out => multiplication_state_out,
-    counter => multiplication_counter,
-    register_sum => multiplication_register_sum,
-    csa_total => multiplication_csa_total,
     
     modpro_done => multiplication_done,
     data_out => multiplication_data_out
@@ -135,16 +113,11 @@ begin
     port map(
     A => reg_P_out,
     B => reg_P_out,
-    N_dot => modulus, -- REMEMBER TO CHANGE
+    N_dot => modulus_dot,
     
     enable_modpro => enable_squaring,
     clk => clk,
     reset_n => reset_n,
-    
-    state_out => squaring_state_out,
-    counter => squaring_counter,
-    register_sum => squaring_register_sum,
-    csa_total => squaring_csa_total,
     
     modpro_done => squaring_done,
     data_out => squaring_data_out
@@ -191,7 +164,6 @@ begin
     
     process(output_signal) begin
         if (output_signal = '1') then
-            --mux_X_sel <= "00"; -- THIS IS NOT OK!! PORQUE NO???
             valid_out <= '1';
             result <= mux_X_out;
         end if;

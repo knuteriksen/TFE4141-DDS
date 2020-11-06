@@ -39,7 +39,6 @@ entity modpro is
         Max_bits     : integer := 264
     );
   Port ( 
-    
     --Input control
     A : in std_logic_vector ( C_block_size-1 downto 0 );
     B : in std_logic_vector ( C_block_size-1 downto 0 );
@@ -48,16 +47,9 @@ entity modpro is
     clk : in std_logic;
     reset_n : in std_logic;
     
-    state_out : out std_logic_vector(3 downto 0);   -- DEBUG
-    counter : out unsigned(7 downto 0);             -- DEBUG
-    register_sum : out integer;                     -- DEBUG
-    csa_total : out integer;                        -- DEBUG
-    
     --Output control
     modpro_done : out std_logic;
     data_out : out std_logic_vector(C_block_size-1 downto 0)
-    --C_reg : out std_logic_vector ( C_block_size-1 downto 0 );
-    --S_reg : out std_logic_vector ( C_block_size-1 downto 0 )
   );
 end modpro;
 
@@ -104,11 +96,7 @@ begin
         
         -- Register enable and reset
         enable_reg => enable_reg,
-        reset_reg => reset_reg,
-        state_out => state_out,
-        register_sum => register_sum,
-        csa_total => csa_total,
-        counter_out => counter    
+        reset_reg => reset_reg
     );
 
     mux_C : entity work.mux_4

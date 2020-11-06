@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 19.10.2020 17:15:09
+-- Create Date: 06.11.2020 16:18:46
 -- Design Name: 
--- Module Name: csa - Behavioral
+-- Module Name: twos_complement - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -32,26 +32,18 @@ use IEEE.numeric_std.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity csa is
-	generic (
-		C_block_size : integer := 256;
-		Max_bits   : integer := 264
-	);
+entity twos_complement is
+    generic (
+            C_block_size : integer := 256
+        );
     port (
-		--input controll
-		a	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		b	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		carry_in	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		
-		--output control
-		carry_out : out STD_LOGIC_VECTOR (Max_bits downto 0);
-        sum : out STD_LOGIC_VECTOR (Max_bits-1 downto 0)
-	);
-end csa;
-
-architecture Behavioral of csa is
+        din : in std_logic_vector (C_block_size-1 downto 0);
+        dout : out std_logic_vector (C_block_size-1 downto 0)
+    );
+end twos_complement;
+    
+architecture Behavioral of twos_complement is
 
 begin
-sum <= ((a XOR b) XOR carry_in);
-carry_out <= (((a AND b) OR (a AND carry_in)) OR (b AND carry_in)) & '0';
+    dout <= std_logic_vector(signed(not(din(C_block_size-1 downto 0))) + "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
 end Behavioral;

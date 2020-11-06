@@ -59,14 +59,13 @@ entity exp_controller is
     enable_reg_P: out std_logic;
     enable_reg_X: out std_logic;
     
-    state_out : out std_logic_vector(3 downto 0);   -- DEBUG
     counter_out : out unsigned (7 downto 0)         -- DEBUG
 
     );
 end exp_controller;
 
 architecture Behavioral of exp_controller is
-    type state is (IDLE, ONE, WRITE_ONE, TWO, WRITE_TWO, THREE, WRITE_THREE, FOUR);
+    type state is (IDLE, ONE, TWO, WRITE_TWO, THREE, WRITE_THREE, FOUR);
     signal current_state, next_state : state;
     
     signal counter : unsigned(7 downto 0);
@@ -76,7 +75,7 @@ begin
 CombProc : process (input_signal, current_state, squaring_done, multiplication_done)
 begin
     if (falling_edge(squaring_done) or falling_edge(multiplication_done)) then
-    NULL;
+        NULL;
     else
     case (current_state) is
     
@@ -89,7 +88,6 @@ begin
         else
             next_state <= ONE;
         end if;
-        state_out <= "0000"; -- DEBUG
     
     when ONE =>
         if (input_signal = '0') then
@@ -106,34 +104,7 @@ begin
             next_state <= TWO;
             
         end if;
-        state_out <= "0001"; -- DEBUG
-
-    when WRITE_ONE =>
-        if (input_signal = '0') then
-            next_state <= IDLE;
-        else
-            next_state <= TWO;
-        end if;
-        state_out <= "0001"; -- DEBUG
---    when ONE =>
---        if (input_signal = '0') then
---            next_state <= IDLE;
---        else
---            counter <= (others => '0');
-            
---            enable_squaring <= '1';
---            if (squaring_done = '1') then
---                enable_squaring <= '0';
---                valid_out <= '1';
---                output_signal <= '1';
---                next_state <= IDLE;
---            else
---                next_state <= ONE;
---            end if;
---        end if;
---        state_out <= "0001"; -- DEBUG
-            
-        
+           
     when TWO =>
         if (input_signal = '0') then
             next_state <= IDLE;
@@ -142,17 +113,14 @@ begin
             enable_reg_X <= '0';
             if key(TO_INTEGER(counter)) = '1' then
                 enable_multiplication <= '1';
-                --mux_X_sel <= "01";      -- Select multiplication output
-                --enable_reg_X <= '1';
+
             else
                 enable_multiplication <= '0';
-                --mux_X_sel <= "00";      -- Select register X output
-                --enable_reg_X <= '0';                
+               
             end if;
             enable_squaring <= '1';
             next_state <= WRITE_TWO;
         end if;
-        state_out <= "0010"; -- DEBUG
         
         
     when WRITE_TWO =>
@@ -196,22 +164,6 @@ begin
                 next_state <= WRITE_TWO;
             end if;
         end if;
-        state_out <= "0011"; -- DEBUG
---            if (( (enable_multiplication and multiplication_done) or ( not enable_multiplication and not multiplication_done ) )  and (squaring_done)) then --hardcoded xnor
---                enable_multiplication <= '0';
---                enable_squaring <= '0';
---                enable_reg_P <= '0';
---                enable_reg_X <= '0';
-                
---                if (to_integer(counter) < C_block_size-2) then
---                    counter <= counter + 1;
---                    next_state <= TWO;
---                else
---                    next_state <= THREE;
---                end if;
---            else
---                next_state <= WRITE_TWO;
---            end if;
 
 
     when THREE =>
@@ -223,16 +175,13 @@ begin
             if(key(C_block_size-1) = '1') then
                 enable_multiplication <= '1';
                 next_state <= WRITE_THREE;
-                --mux_X_sel <= "01";      -- Select multiplication output
-                --enable_reg_X <= '1';
+
             else
                 enable_multiplication <= '0';
                 next_state <= FOUR;
-                --mux_X_sel <= "00";      -- Select register X output
-                --enable_reg_X <= '0';                
+               
             end if;        
         end if;
-        state_out <= "0100"; -- DEBUG
         
     when WRITE_THREE =>
         if (input_signal = '0') then
@@ -247,7 +196,6 @@ begin
                 next_state <= WRITE_THREE;
             end if;
         end if;
-        state_out <= "0101"; -- DEBUG
     
     when FOUR =>
         if (input_signal = '0') then
@@ -260,11 +208,9 @@ begin
             next_state <= IDLE;
         end if;
         next_state <= IDLE;
-        state_out <= "0110"; -- DEBUG
     
     when others =>
         next_state <= IDLE;
-        state_out <= "1111"; -- DEBUG    
     end case;
     end if;
 

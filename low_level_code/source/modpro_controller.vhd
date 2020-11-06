@@ -15,8 +15,8 @@
 -- Revision:
 -- Revision 0.01 - File Created
 -- Additional Comments:
--- Ports: snake_case
--- Signals: CamelCase
+
+
 ----------------------------------------------------------------------------------
 
 
@@ -61,13 +61,8 @@ entity modpro_controller is
     
     -- Register enable and reset
     enable_reg : out std_logic;
-    reset_reg : out std_logic;
+    reset_reg : out std_logic
     
-    
-    state_out : out std_logic_vector(3 downto 0);   -- DEBUG
-    register_sum : out integer;                     -- DEBUG
-    csa_total : out integer;                        -- DEBUG
-    counter_out : out unsigned (7 downto 0)         -- DEBUG
 );
    
 end entity modpro_controller;
@@ -75,8 +70,7 @@ end entity modpro_controller;
 architecture Behavioral of modpro_controller is
     signal data_in_ready_i:  std_logic;
     signal data_out_valid_i: std_logic;
-    
-    type state is (IDLE, ONE, TWO_A, WRITE_A, TWO_B, WRITE_B, TWO_C, C_POS, C_NEG, WRITE_C, TWO_D, WRITE_D, THREE, FINISHED);
+    type state is (IDLE, ONE, TWO_A, TWO_B, TWO_C, C_POS, TWO_D, THREE);
     signal current_state, next_state : state;
     
     signal counter : unsigned(7 downto 0);
@@ -90,7 +84,7 @@ begin
         end if;
     end process;
      
-    CombProc : process (input_signal, current_state) -- Om current state ikke endres, så kjører den ikke
+    CombProc : process (input_signal, current_state)
     begin
        case (current_state) is
        
@@ -101,7 +95,6 @@ begin
            else
                next_state <= ONE;
            end if;
-           state_out <= "0000"; -- DEBUG
        
        when ONE =>
            output_signal <= '0';
@@ -112,7 +105,6 @@ begin
                counter <= (others => '0');
                next_state <= TWO_A;
            end if;
-           state_out <= "0001"; -- DEBUG
        
        when TWO_A =>
            reset_reg <= '1';
@@ -128,20 +120,9 @@ begin
                end if;
                enable_reg <= '1';
                next_state <= TWO_B;
-               -- next_state <= WRITE_A; - NOT IN USE
            end if; 
-           state_out <= "0010";                                                     -- DEBUG
-           csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));      -- DEBUG
-           register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out)); -- DEBUG
            
-           
-       /*when WRITE_A =>
-         csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));
-         register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));
-         enable_reg <= '0';
-         next_state <= TWO_B;
-         state_out <= "0011";*/
-          
+
        
        when TWO_B =>
            output_signal <= '0';
@@ -151,31 +132,21 @@ begin
            else
                mux_CS_sel <= "10"; -- Select register C and S
                mux_A_sel  <= "10"; -- Select -N
-               next_state <= WRITE_B;
+               next_state <= TWO_C;
 
            end if;
-           state_out <= "0100";                                                     -- DEBUG
-           csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));      -- DEBUG
-           register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out)); -- DEBUG
-       
-       
-       when WRITE_B =>
-         next_state <= TWO_C;
-         csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));        -- DEBUG
-         register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));   -- DEBUG
-         state_out <= "0101";                                                       -- DEBUG
-       
-       
+
        when TWO_C =>
            output_signal <= '0';
            if (input_signal = '0') then
                next_state <= IDLE;
            else
-               if (csa_total < 0) then
+               if (TO_INTEGER(signed(csa_sum) + signed(csa_carry_out))<0) then
                    enable_reg <= '0';
                    if to_integer(counter) < 255 then
                         counter <= counter + '1';
-                        next_state <= C_NEG;
+                        next_state <= TWO_A;
+                        enable_reg <= '0';
                    else
                         next_state <= THREE;
                    end if;                    
@@ -183,73 +154,34 @@ begin
                    enable_reg <= '1';
                    next_state <= C_POS;
                end if;
-           end if;
-           state_out <= "0110";                                                     -- DEBUG
-           csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));      -- DEBUG
-           register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out)); -- DEBUG 
-       
-      
-       when C_NEG =>
-            next_state <= TWO_A;
-            enable_reg <= '0';
-            state_out <= "0111";                                                    -- DEBUG                                                                                                 
-            csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG
-            register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
-            
+           end if;        
       
        when C_POS =>
-            next_state <= WRITE_C;
-            enable_reg <= '0';                          
-            csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG     
-            register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
-            state_out <= "1000";                                                    -- DEBUG                                                                                                       
-                    
-      
-       when WRITE_C =>
             next_state <= TWO_D;
-            enable_reg <= '0';
-            csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG
-            register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
-            state_out <= "1110";                                                    -- DEBUG
-            
+            enable_reg <= '0';                          
+                    
      
        when TWO_D =>
            output_signal <= '0';
            if (input_signal = '0') then
                next_state <= IDLE;
            else
-               if (csa_total < 0) then
+               if(TO_INTEGER(signed(csa_sum) + signed(csa_carry_out))<0) then
                    enable_reg <= '0';
                else
                    enable_reg <= '1';
                end if;
                if to_integer(counter) < 255 then
                    counter <= counter + '1';
-                   -- next_state <= WRITE_D; NOT IN USE
                    next_state <= TWO_A;
                    
                else
                    next_state <= THREE;
                end if;
            end if;
-           state_out <= "1001";                                                    -- DEBUG
-           csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));     -- DEBUG
-           register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));-- DEBUG
-       
-     
-       /*when WRITE_D =>
-            csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));
-            register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out));
-            next_state <= TWO_A;
-            enable_reg <= '0';
-            state_out <= "1010";*/
        
        when THREE =>
            output_signal <= '1';
-           -- next_state <= FINISHED;
-           state_out <= "1011";                                                     -- DEBUG
-           csa_total <= TO_INTEGER(signed(csa_sum) + signed(csa_carry_out));      -- DEBUG
-           register_sum <= TO_INTEGER(signed(reg_S_out) + signed(reg_C_out)); -- DEBUG
            if(input_signal = '0') then
                 output_signal <= '0';
                 next_state <= IDLE;
@@ -257,23 +189,10 @@ begin
                 output_signal <= '1';
                 next_state <= THREE;
             end if;
-       
-       
-       /*when FINISHED =>
-            if(input_signal = '0') then
-                output_signal <= '0';
-                next_state <= IDLE;
-            else
-                output_signal <= '1';
-                next_state <= FINISHED;
-            end if;
-         */   
-            
             
        when others =>
            output_signal <= '0';
            next_state <= IDLE;
-           state_out <= "1111"; -- DEBUG
        end case;
        
    end process CombProc;
@@ -286,7 +205,5 @@ begin
         current_state <= next_state;
     end if;
 end process SyncProc;        
-
-counter_out <= counter;
 
 end Behavioral;
