@@ -9,10 +9,9 @@ def modular_product(a, b, n):
     Note: n > a,b
     """
     r = 0
-    a_bin = "{0:0256b}".format(a)
-    for i in range(len(a_bin)):
-        r = 2*r + int(a_bin[i]) * b
-        # r = r % n :
+    b_bin = "{0:0256b}".format(b)
+    for i in range(len(b_bin)):
+        r = 2*r + int(b_bin[i]) * a
         if(r >= n):
             r = r-n
         if(r >= n):
@@ -29,8 +28,12 @@ def modular_exp(m, e, n):
     if int(e_bin[i]):
       x = modular_product(x, p, n)
     p = modular_product(p, p, n)
+    #print(f"{255-i}: X= {x} P={p}\n")
+    #input("Press enter to continue")
   if int(e_bin[0]):
     x = modular_product(x, p, n)
+    #print(f"{255}: X= {x} P={p}\n")
+
   return x
 
 
@@ -55,7 +58,7 @@ class tests(unittest.TestCase):
             self.assertEqual(expected, actual)
           except:
             print(f"\n{base}^{exp}(mod {modulo}) = (actual: {actual}, expected: {expected})")
-    
+
 
     def test_blakley_product(self):
       for i in range(100):
@@ -70,10 +73,10 @@ class tests(unittest.TestCase):
     def test_encrypt(self):
       message = "0x0000000011111111222222223333333344444444555555556666666677777777"
       m = int(message, 0)
-    
+
       power = "0x0000000000000000000000000000000000000000000000000000000000010001"
       e = int(power, 0)
-    
+
       n = "0x99925173ad65686715385ea800cd28120288fc70a9bc98dd4c90d676f8ff768d"
       n = int(n, 0)
 
@@ -81,7 +84,7 @@ class tests(unittest.TestCase):
       actual = modular_exp(m, e, n)
       self.assertEqual(expected, actual)
       print("Encryption successful\n")
-    
+
     def test_decrypt(self):
        message = "0x23026c469918f5ea097f843dc5d5259192f9d3510415841ce834324f4c237ac7"
        c = int(message, 0)
@@ -97,5 +100,7 @@ class tests(unittest.TestCase):
        self.assertEqual(expected, actual)
        print("Decryption successful\n")
 
+
 if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+   unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
