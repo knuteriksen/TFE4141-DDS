@@ -23,25 +23,10 @@ architecture expBehave of exponentiation_tb is
 	signal restart 		: STD_LOGIC;
 	signal reset_n 		: STD_LOGIC;
 	
-	constant CLK_PERIOD : time := 20ns;
-	
-		------ DEBUG ------    
+	constant CLK_PERIOD : time := 1ns;
+
     signal input_signal : std_logic := '0';
     
-    signal multiplication_state_out : std_logic_vector(3 downto 0);   -- DEBUG
-    signal squaring_state_out : std_logic_vector(3 downto 0);   -- DEBUG
-    
-    signal multiplication_counter : unsigned(7 downto 0);             -- DEBUG
-    signal squaring_counter : unsigned(7 downto 0);             -- DEBUG
-    
-    signal multiplication_register_sum : integer;                     -- DEBUG
-    signal squaring_register_sum : integer;                     -- DEBUG
-    
-    signal multiplication_csa_total : integer;                        -- DEBUG
-    signal squaring_csa_total : integer;                        -- DEBUG
-    
-    signal exp_counter : unsigned(7 downto 0);
-    signal exp_state_out : std_logic_vector(3 downto 0);	
 
 begin
 	i_exponentiation : entity work.exponentiation
@@ -57,23 +42,9 @@ begin
 			clk       => clk      ,
 			reset_n   => reset_n,
 			
-			input_signal => input_signal,
-			
-			multiplication_state_out => multiplication_state_out,
-			multiplication_counter => multiplication_counter,
-			multiplication_register_sum => multiplication_register_sum,
-			multiplication_csa_total => multiplication_csa_total,
-			
-			squaring_state_out => squaring_state_out,
-			squaring_counter => squaring_counter,
-			squaring_register_sum => squaring_register_sum,
-			squaring_csa_total => squaring_csa_total,
-			
-			exp_counter => exp_counter,
-			exp_state_out => exp_state_out
+			input_signal => input_signal
+
 		);
-		
-	--reset_n <= '1';
     
     clk <= not clk after CLK_PERIOD/2;
 
@@ -85,11 +56,11 @@ stimulus: process
     wait for 10*CLK_PERIOD;
     message <= "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"&"10001100100";  -- 1124
     key     <= "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"&"01011110110";  -- 758
-    modulus <= "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"&"101100000001";  -- -1279
+    modulus <= "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"&"10011111111";  -- 1279
     wait for 10*CLK_PERIOD;
     input_signal <= '1';
      wait until valid_out='1';
-     input_signal <= '0';
+     input_signal <= '0';    -- Put breakpoint here. Once it's done computing the modular exponentiation it gets stored in "result" should be 683.
      wait;
     end process stimulus;
 end expBehave;

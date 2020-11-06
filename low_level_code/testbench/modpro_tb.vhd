@@ -45,11 +45,8 @@ architecture Behavioral of modpro_tb is
 signal clk : std_logic := '0';
 signal reset_n : std_logic := '0';
 signal A, B, N_dot, C_reg, S_reg : std_logic_vector( C_block_size -1 downto 0);
-signal state_out : std_logic_vector(3 downto 0);
-signal counter : unsigned(7 downto 0);
 signal controller_enable : std_logic := '0';
 signal modpro_done : std_logic;
-signal register_sum, csa_total : integer;
 constant CLK_PERIOD : time := 20ns;
 signal data_out: std_logic_vector(C_block_size-1 downto 0);
 
@@ -65,17 +62,9 @@ modpro : entity work.modpro
     
     enable_modpro => controller_enable,
     modpro_done => modpro_done,
+    
     --Output control
-    --C_reg => C_reg,
-    --S_reg => S_reg,
-    
-    data_out => data_out,
-    register_sum => register_sum,
-    csa_total => csa_total,
-    
-    state_out => state_out,
-    counter => counter
-    
+    data_out => data_out
     );
     
     reset_n <= '1';
