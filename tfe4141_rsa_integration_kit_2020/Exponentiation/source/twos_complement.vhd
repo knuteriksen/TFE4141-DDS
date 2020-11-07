@@ -17,11 +17,9 @@
 -- Additional Comments:
 -- 
 ----------------------------------------------------------------------------------
-
-
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.numeric_std.ALL;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.numeric_std.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -33,18 +31,17 @@ use IEEE.numeric_std.ALL;
 --use UNISIM.VComponents.all;
 
 entity twos_complement is
-    generic (
-            C_block_size : integer := 256
-        );
-    port (
-        din : in std_logic_vector (C_block_size downto 0);
-        dout : out std_logic_vector (C_block_size + 1 downto 0)
-    );
+	generic (
+		C_block_size : integer := 256
+	);
+	port (
+		din  : in  std_logic_vector (C_block_size downto 0);
+		dout : out std_logic_vector (C_block_size + 1 downto 0)
+	);
 end twos_complement;
-    
+
 architecture Behavioral of twos_complement is
 
 begin
-    -- dout <= std_logic_vector(signed(not(unsigned(din(C_block_size-1 downto 0)))) + "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
-    dout <= '1' & std_logic_vector(signed((not din))+1);
+	dout <= '1' & std_logic_vector(signed((not din)) + 1);
 end Behavioral;

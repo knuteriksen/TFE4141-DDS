@@ -82,7 +82,6 @@ begin
 			result    => msgout_data ,
 			modulus   => key_n       ,
 			clk       => clk         ,
-			input_signal => '1',
 			reset_n   => reset_n
 		);
 

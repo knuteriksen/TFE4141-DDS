@@ -40,16 +40,16 @@ entity modpro is
     );
   Port ( 
     --Input control
-    A : in std_logic_vector ( C_block_size-1 downto 0 );
-    B : in std_logic_vector ( C_block_size-1 downto 0 );
-    N_dot : in std_logic_vector (C_block_size downto 0 );
-    enable_modpro : in std_logic;
-    clk : in std_logic;
-    reset_n : in std_logic;
+    A               : in std_logic_vector ( C_block_size-1 downto 0 );
+    B               : in std_logic_vector ( C_block_size-1 downto 0 );
+    N_dot           : in std_logic_vector (C_block_size downto 0 );
+    enable_modpro   : in std_logic;
+    clk             : in std_logic;
+    reset_n         : in std_logic;
     
     --Output control
-    modpro_done : out std_logic;
-    data_out : out std_logic_vector(C_block_size-1 downto 0)
+    modpro_done     : out std_logic;
+    data_out        : out std_logic_vector(C_block_size-1 downto 0)
   );
 end modpro;
 
@@ -101,12 +101,12 @@ begin
 
     mux_C : entity work.mux_4
     port map(
-        d0 => (others => '0'),
-        d1 => reg_C_out(Max_bits-2 downto 0) & '0',
-        d2 => reg_C_out(Max_bits-1 downto 0),
-        d3 => csa_carry_out(Max_bits-1 downto 0),
-        sel => mux_CS_sel,
-        output => mux_C_out
+        d0      => (others => '0'),
+        d1      => reg_C_out(Max_bits-2 downto 0) & '0',
+        d2      => reg_C_out(Max_bits-1 downto 0),
+        d3      => csa_carry_out(Max_bits-1 downto 0),
+        sel     => mux_CS_sel,
+        output  => mux_C_out
     );
     
     mux_S : entity work.mux_4
@@ -133,8 +133,8 @@ begin
     port map(
         a         => mux_S_out,
         b         => mux_A_out,
+        result    => csa_sum
         -- carry_in  => mux_C_out,
-        result       => csa_sum
         -- carry_out => csa_carry_out
     );
     

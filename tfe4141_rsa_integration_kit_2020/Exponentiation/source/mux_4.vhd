@@ -17,10 +17,8 @@
 -- Additional Comments:
 -- 
 ----------------------------------------------------------------------------------
-
-
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_1164.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -32,37 +30,34 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity mux_4 is
-generic (
+	generic (
 		C_block_size : integer := 256;
 		Max_bits     : integer := 264
 
 	);
-    port (
-		--input controll
-		d0	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		d1	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		d2	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		d3	: in STD_LOGIC_VECTOR (Max_bits-1 downto 0);
-		sel	: in STD_LOGIC_VECTOR (1 downto 0);
-		
-		--output control
-		output : out STD_LOGIC_VECTOR (Max_bits-1 downto 0)
-		
-		
-		
+	port (
+		--INPUT SIGNALS
+		d0     : in  std_logic_vector (Max_bits - 1 downto 0);
+		d1     : in  std_logic_vector (Max_bits - 1 downto 0);
+		d2     : in  std_logic_vector (Max_bits - 1 downto 0);
+		d3     : in  std_logic_vector (Max_bits - 1 downto 0);
+		sel    : in  std_logic_vector (1 downto 0);
+
+		--OUTPUT SIGNAL
+		output : out std_logic_vector (Max_bits - 1 downto 0)
 	);
 end mux_4;
 
 architecture Behavioral of mux_4 is
 begin
 
-mux_4_process : process(d0,d1,d2,d3,sel)
-begin
-    case sel is
-        when "00" => output <= d0;
-        when "01" => output <= d1;
-        when "10" => output <= d2;
-        when others => output <= d3;
-    end case;
-end process mux_4_process;
+	mux_4_process : process (d0, d1, d2, d3, sel)
+	begin
+		case sel is
+			when "00"   => output   <= d0;
+			when "01"   => output   <= d1;
+			when "10"   => output   <= d2;
+			when others => output <= d3;
+		end case;
+	end process mux_4_process;
 end Behavioral;
