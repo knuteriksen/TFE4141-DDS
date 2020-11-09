@@ -75,11 +75,11 @@ architecture Behavioral of modpro_controller is
 begin
 
 	-- Reset from Mod exp
-	process (clk, reset_n) begin
+/*	process (clk, reset_n) begin
 		if (reset_n = '0') then
 			reset_reg <= '0';
 		end if;
-	end process;
+	end process;*/
 
 	CombProc : process (input_signal, current_state)
 	begin
