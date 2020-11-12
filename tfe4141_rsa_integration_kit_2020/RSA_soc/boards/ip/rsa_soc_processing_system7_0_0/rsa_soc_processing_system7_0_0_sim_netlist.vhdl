@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2020.1.1 (win64) Build 2960000 Wed Aug  5 22:57:20 MDT 2020
--- Date        : Mon Nov  9 19:07:41 2020
--- Host        : LAB-PC running 64-bit major release  (build 9200)
+-- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
+-- Date        : Thu Nov 12 12:29:14 2020
+-- Host        : DESKTOP-P441D4V running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
---               c:/gr18/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_processing_system7_0_0/rsa_soc_processing_system7_0_0_sim_netlist.vhdl
+--               c:/Xilinx/TFE4141-DDS/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_processing_system7_0_0/rsa_soc_processing_system7_0_0_sim_netlist.vhdl
 -- Design      : rsa_soc_processing_system7_0_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -3477,7 +3477,7 @@ entity rsa_soc_processing_system7_0_0 is
   attribute DowngradeIPIdentifiedWarnings : string;
   attribute DowngradeIPIdentifiedWarnings of rsa_soc_processing_system7_0_0 : entity is "yes";
   attribute X_CORE_INFO : string;
-  attribute X_CORE_INFO of rsa_soc_processing_system7_0_0 : entity is "processing_system7_v5_5_processing_system7,Vivado 2020.1.1";
+  attribute X_CORE_INFO of rsa_soc_processing_system7_0_0 : entity is "processing_system7_v5_5_processing_system7,Vivado 2020.1";
 end rsa_soc_processing_system7_0_0;
 
 architecture STRUCTURE of rsa_soc_processing_system7_0_0 is

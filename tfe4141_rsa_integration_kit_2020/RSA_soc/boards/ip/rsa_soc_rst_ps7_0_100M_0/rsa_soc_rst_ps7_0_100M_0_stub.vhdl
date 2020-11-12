@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2020.1.1 (win64) Build 2960000 Wed Aug  5 22:57:20 MDT 2020
--- Date        : Mon Nov  9 19:06:49 2020
--- Host        : LAB-PC running 64-bit major release  (build 9200)
+-- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
+-- Date        : Thu Nov 12 12:29:24 2020
+-- Host        : DESKTOP-P441D4V running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               c:/gr18/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_rst_ps7_0_100M_0/rsa_soc_rst_ps7_0_100M_0_stub.vhdl
+--               c:/Xilinx/TFE4141-DDS/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_rst_ps7_0_100M_0/rsa_soc_rst_ps7_0_100M_0_stub.vhdl
 -- Design      : rsa_soc_rst_ps7_0_100M_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg400-1
@@ -34,6 +34,6 @@ attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
 attribute black_box_pad_pin of stub : architecture is "slowest_sync_clk,ext_reset_in,aux_reset_in,mb_debug_sys_rst,dcm_locked,mb_reset,bus_struct_reset[0:0],peripheral_reset[0:0],interconnect_aresetn[0:0],peripheral_aresetn[0:0]";
 attribute x_core_info : string;
-attribute x_core_info of stub : architecture is "proc_sys_reset,Vivado 2020.1.1";
+attribute x_core_info of stub : architecture is "proc_sys_reset,Vivado 2020.1";
 begin
 end;

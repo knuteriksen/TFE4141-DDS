@@ -1,10 +1,10 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2020.1.1 (win64) Build 2960000 Wed Aug  5 22:57:20 MDT 2020
-// Date        : Mon Nov  9 19:07:35 2020
-// Host        : LAB-PC running 64-bit major release  (build 9200)
+// Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
+// Date        : Thu Nov 12 12:30:46 2020
+// Host        : DESKTOP-P441D4V running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode synth_stub
-//               c:/gr18/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_rsa_dma_0/rsa_soc_rsa_dma_0_stub.v
+//               c:/Xilinx/TFE4141-DDS/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_rsa_dma_0/rsa_soc_rsa_dma_0_stub.v
 // Design      : rsa_soc_rsa_dma_0
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7z020clg400-1
@@ -13,7 +13,7 @@
 // This empty module with port declaration file causes synthesis tools to infer a black box for IP.
 // The synthesis directives are for Synopsys Synplify support to prevent IO buffer insertion.
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
-(* x_core_info = "axi_dma,Vivado 2020.1.1" *)
+(* x_core_info = "axi_dma,Vivado 2020.1" *)
 module rsa_soc_rsa_dma_0(s_axi_lite_aclk, m_axi_mm2s_aclk, 
   m_axi_s2mm_aclk, axi_resetn, s_axi_lite_awvalid, s_axi_lite_awready, s_axi_lite_awaddr, 
   s_axi_lite_wvalid, s_axi_lite_wready, s_axi_lite_wdata, s_axi_lite_bresp, 

@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
--- Tool Version: Vivado v.2020.1.1 (win64) Build 2960000 Wed Aug  5 22:57:20 MDT 2020
--- Date        : Mon Nov  9 18:49:20 2020
--- Host        : LAB-PC running 64-bit major release  (build 9200)
+-- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
+-- Date        : Thu Nov 12 12:30:41 2020
+-- Host        : DESKTOP-P441D4V running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               c:/gr18/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_rsa_acc_0/rsa_soc_rsa_acc_0_stub.vhdl
+--               c:/Xilinx/TFE4141-DDS/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_rsa_acc_0/rsa_soc_rsa_acc_0_stub.vhdl
 -- Design      : rsa_soc_rsa_acc_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg400-1
@@ -55,6 +55,6 @@ attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
 attribute black_box_pad_pin of stub : architecture is "clk,reset_n,s00_axi_awaddr[7:0],s00_axi_awprot[2:0],s00_axi_awvalid,s00_axi_awready,s00_axi_wdata[31:0],s00_axi_wstrb[3:0],s00_axi_wvalid,s00_axi_wready,s00_axi_bresp[1:0],s00_axi_bvalid,s00_axi_bready,s00_axi_araddr[7:0],s00_axi_arprot[2:0],s00_axi_arvalid,s00_axi_arready,s00_axi_rdata[31:0],s00_axi_rresp[1:0],s00_axi_rvalid,s00_axi_rready,s00_axis_tready,s00_axis_tdata[31:0],s00_axis_tstrb[3:0],s00_axis_tlast,s00_axis_tvalid,m00_axis_tvalid,m00_axis_tdata[31:0],m00_axis_tstrb[3:0],m00_axis_tlast,m00_axis_tready";
 attribute x_core_info : string;
-attribute x_core_info of stub : architecture is "RSA_accelerator,Vivado 2020.1.1";
+attribute x_core_info of stub : architecture is "RSA_accelerator,Vivado 2020.1";
 begin
 end;

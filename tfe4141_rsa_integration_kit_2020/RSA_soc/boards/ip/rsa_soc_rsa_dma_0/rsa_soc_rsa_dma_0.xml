@@ -5059,7 +5059,7 @@ Note: This value must be greater than or equal to the largest expected packet to
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Nov 09 17:46:54 UTC 2020</spirit:value>
+            <spirit:value>Thu Nov 12 11:24:39 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -5077,7 +5077,7 @@ Note: This value must be greater than or equal to the largest expected packet to
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Nov 09 18:05:22 UTC 2020</spirit:value>
+            <spirit:value>Thu Nov 12 11:24:39 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -5097,7 +5097,7 @@ Note: This value must be greater than or equal to the largest expected packet to
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Nov 09 18:05:22 UTC 2020</spirit:value>
+            <spirit:value>Thu Nov 12 11:24:39 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -5138,7 +5138,7 @@ Note: This value must be greater than or equal to the largest expected packet to
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Nov 09 17:46:54 UTC 2020</spirit:value>
+            <spirit:value>Thu Nov 12 11:24:39 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -5158,7 +5158,7 @@ Note: This value must be greater than or equal to the largest expected packet to
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Nov 09 18:05:22 UTC 2020</spirit:value>
+            <spirit:value>Thu Nov 12 11:24:39 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -5176,7 +5176,7 @@ Note: This value must be greater than or equal to the largest expected packet to
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Mon Nov 09 18:07:36 UTC 2020</spirit:value>
+            <spirit:value>Thu Nov 12 11:30:47 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -8858,7 +8858,7 @@ Note: This value must be greater than or equal to the largest expected packet to
       </xilinx:configElementInfos>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
-      <xilinx:xilinxVersion>2020.1.1</xilinx:xilinxVersion>
+      <xilinx:xilinxVersion>2020.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="3234f095"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="fd8ca0b9"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="b2f7716d"/>

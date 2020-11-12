@@ -50,9 +50,9 @@
 // IP VLNV: xilinx.com:ip:smartconnect:1.0
 // IP Revision: 13
 
-(* X_CORE_INFO = "bd_ae75,Vivado 2020.1.1" *)
+(* X_CORE_INFO = "bd_ae75,Vivado 2020.1" *)
 (* CHECK_LICENSE_TYPE = "rsa_soc_axi_smc_0,bd_ae75,{}" *)
-(* CORE_GENERATION_INFO = "rsa_soc_axi_smc_0,bd_ae75,{x_ipProduct=Vivado 2020.1.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=smartconnect,x_ipVersion=1.0,x_ipCoreRevision=13,x_ipLanguage=VHDL,x_ipSimLanguage=VHDL}" *)
+(* CORE_GENERATION_INFO = "rsa_soc_axi_smc_0,bd_ae75,{x_ipProduct=Vivado 2020.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=smartconnect,x_ipVersion=1.0,x_ipCoreRevision=13,x_ipLanguage=VHDL,x_ipSimLanguage=VHDL}" *)
 (* DowngradeIPIdentifiedWarnings = "yes" *)
 module rsa_soc_axi_smc_0 (
   aclk,
