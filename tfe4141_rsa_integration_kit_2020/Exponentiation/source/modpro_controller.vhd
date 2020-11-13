@@ -79,6 +79,12 @@ begin
 				-- READY AND WAITING TO START MODPRO"
 			when IDLE =>
 				output_signal <= '0';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel <= "01"; -- Select A
+				enable_reg    <= '0';
+				reset_reg  <= '1';
+				
+				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 					counter    <= (others => '0');
@@ -88,6 +94,12 @@ begin
 
 			when ONE =>
 				output_signal <= '0';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel <= "01"; -- Select A
+				enable_reg    <= '0';
+				reset_reg  <= '1';
+				
+				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -97,8 +109,13 @@ begin
 				end if;
 
 			when TWO_A =>
-				reset_reg     <= '1';
 				output_signal <= '0';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel <= "01"; -- Select A
+				enable_reg    <= '0';
+				reset_reg     <= '1';
+				
+				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -114,7 +131,11 @@ begin
 
 			when TWO_B =>
 				output_signal <= '0';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel  <= "10"; -- Select -N
 				enable_reg    <= '0';
+				reset_reg     <= '1';
+				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -126,6 +147,11 @@ begin
 
 			when TWO_C =>
 				output_signal <= '0';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel  <= "10"; -- Select -N
+				enable_reg    <= '0';
+				reset_reg     <= '1';
+				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -145,11 +171,21 @@ begin
 				end if;
 
 			when C_POS =>
+			    output_signal <= '0';
+			    mux_S_sel <= "10"; -- Select register S
+			    mux_A_sel  <= "10"; -- Select -N
+			    enable_reg    <= '0';
+			    reset_reg     <= '1';
+			    			    
 				next_state <= TWO_D;
-				enable_reg <= '0';
 
 			when TWO_D =>
 				output_signal <= '0';
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "10"; -- Select -N
+				enable_reg    <= '0';
+				reset_reg     <= '1';
+				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -168,7 +204,11 @@ begin
 
 			when THREE =>
 				output_signal <= '1';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel  <= "10"; -- Select -N
 				enable_reg <= '0';
+				reset_reg     <= '1';
+				
 				if (input_signal = '0') then
 					output_signal <= '0';
 					next_state    <= IDLE;
@@ -179,6 +219,11 @@ begin
 
 			when others =>
 				output_signal <= '0';
+				mux_S_sel <= "10"; -- Select register S
+				mux_A_sel  <= "10"; -- Select -N
+				enable_reg    <= '0';
+				reset_reg     <= '1';
+				
 				next_state    <= IDLE;
 		end case;
 

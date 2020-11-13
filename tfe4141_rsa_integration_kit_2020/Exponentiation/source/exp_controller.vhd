@@ -76,10 +76,16 @@ begin
 			case (current_state) is
 
 				when IDLE =>
+				    mux_P_sel <= '1';
+				    mux_X_sel <= "00";
+				    enable_reg_P <= '0';
+				    enable_reg_X <= '0';
+				    
 					output_signal         <= '0';
 					enable_multiplication <= '0';
 					enable_squaring       <= '0';
 					counter      <= (others => '0');
+
 					if valid_in = '1' then
 						next_state    <= ONE;
 						ready_in      <= '0';
@@ -91,14 +97,17 @@ begin
 					end if;
 
 
-
-
 				when ONE =>
                             ready_in     <= '0';
                             mux_P_sel    <= '0'; -- Select message
-                            enable_reg_P <= '1';
                             mux_X_sel    <= "10"; -- Select 1
+                            enable_reg_P <= '1';
                             enable_reg_X <= '1';
+                            output_signal         <= '0';
+                            enable_multiplication <= '0';
+					        enable_squaring       <= '0';
+                            counter      <= counter + 0;
+                            
                             next_state   <= TWO;
 
 
@@ -106,35 +115,57 @@ begin
 
 
 				when TWO =>
+				        mux_P_sel <= '0';
+				        mux_X_sel     <= "10"; -- Select register X output
 						enable_reg_P <= '0';
 						enable_reg_X <= '0';
+						output_signal         <= '0';
+						enable_squaring <= '1';
+						counter      <= counter + 0;
+						ready_in      <= '0';
+						next_state      <= WRITE_TWO;
+						
 						if key(TO_INTEGER(counter)) = '1' then
 							enable_multiplication <= '1';
 						else
 							enable_multiplication <= '0';
 						end if;
-						enable_squaring <= '1';
-						next_state      <= WRITE_TWO;
+						
 
 
 
 				
 				when WRITE_TWO =>
+				        mux_P_sel             <= '1'; -- Select squaring modpro output
+				        mux_X_sel             <= "00";  -- Select register X output
+				        enable_reg_P          <= '0';
+				        enable_reg_X          <= '0';
+				        output_signal         <= '0';
+				        enable_squaring       <= '1';
+				        counter      <= counter + 0;
+				        ready_in      <= '0';
+				        
+				        if (enable_multiplication = '1') then
+				            enable_multiplication <= '1';
+				        else
+				            enable_multiplication <= '0';
+				        end if;
+				        
 						if (squaring_done = '1') then
 							if (enable_multiplication = '1') then
 								if (multiplication_done = '1') then -- Squaring done and multiplication_enable and multiplication done
-									if (to_integer(counter) < C_block_size - 2) then
-										counter    <= counter + 1;
-										next_state <= TWO;
-									else
-										next_state <= THREE;
-									end if;
 									mux_P_sel             <= '1'; -- Select squaring modpro output
 									enable_reg_P          <= '1';
 									mux_X_sel             <= "01";
 									enable_reg_X          <= '1';
 									enable_squaring       <= '0';
 									enable_multiplication <= '0';
+									if (to_integer(counter) < C_block_size - 2) then
+										counter    <= counter + 1;
+										next_state <= TWO;
+									else
+										next_state <= THREE;
+									end if;
 
 								else
 									next_state <= WRITE_TWO;
@@ -161,8 +192,14 @@ begin
 
 
 				when THREE =>
+				        mux_P_sel             <= '1'; -- Select squaring modpro output
+				        mux_X_sel     <= "00"; -- Select register X output
 						enable_reg_P <= '0';
 						enable_reg_X <= '0';
+						output_signal         <= '0';
+						enable_squaring <= '0';
+						counter      <= counter + 0;
+						ready_in      <= '0';
 
 						if (key(C_block_size - 1) = '1') then
 							enable_multiplication <= '1';
@@ -178,6 +215,13 @@ begin
 
 
 				when WRITE_THREE =>
+				        mux_P_sel             <= '1'; -- Select squaring modpro output
+				        enable_reg_P <= '0';
+				        enable_reg_X <= '0';
+				        output_signal         <= '0';
+				        enable_squaring <= '0';
+				        counter      <= counter + 0;
+				        ready_in      <= '0';
 
 						if (multiplication_done = '1') then
 							enable_multiplication <= '0';
@@ -194,10 +238,14 @@ begin
 
 
 				when FOUR =>
+				        mux_P_sel             <= '1'; -- Select squaring modpro output
+				        mux_X_sel     <= "00"; -- Select register X output
 						enable_reg_P  <= '0';
 						enable_reg_X  <= '0';
+						enable_squaring <= '0';
+						enable_multiplication <= '0';
 						output_signal <= '1';
-						mux_X_sel     <= "00"; -- Select register X output
+						counter      <= counter + 0;						
 
 						if (ready_out = '1') then
 							ready_in   <= '1';
@@ -208,6 +256,16 @@ begin
 						end if;
 				
 				when others =>
+				    mux_P_sel             <= '1'; -- Select squaring modpro output
+				    mux_X_sel     <= "00"; -- Select register X output
+				    enable_reg_P <= '0';
+				    enable_reg_X <= '0';
+				    output_signal         <= '0';
+				    enable_squaring <= '0';
+                    enable_multiplication <= '0';
+                    counter      <= counter + 0;
+                    ready_in      <= '0';
+				    
 					next_state <= IDLE;
 			
 			end case;
