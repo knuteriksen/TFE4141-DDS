@@ -68,7 +68,7 @@ architecture Behavioral of modpro_controller is
 	signal current_state, next_state : state;
 
 	signal counter                   : unsigned(7 downto 0);
-	signal csa_TOTAL                 : integer;
+    signal i_counter                 : std_logic_vector(1 downto 0);
 
 begin
 
@@ -83,11 +83,11 @@ begin
 				mux_A_sel <= "01"; -- Select A
 				enable_reg    <= '0';
 				reset_reg  <= '1';
-				
+				i_counter <= "00"; -- Reset counter
 				
 				if (input_signal = '0') then
 					next_state <= IDLE;
-					counter    <= (others => '0');
+					-- counter    <= (others => '0');
 				else
 					next_state <= ONE;
 				end if;
@@ -98,13 +98,13 @@ begin
 				mux_A_sel <= "01"; -- Select A
 				enable_reg    <= '0';
 				reset_reg  <= '1';
-				
+				i_counter <= "01"; -- Do nothing with counter
 				
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
 					reset_reg  <= '0';
-					counter    <= (others => '0');
+					-- counter    <= (others => '0');
 					next_state <= TWO_A;
 				end if;
 
@@ -114,6 +114,7 @@ begin
 				mux_A_sel <= "01"; -- Select A
 				enable_reg    <= '0';
 				reset_reg     <= '1';
+				i_counter <= "01"; -- Do nothing with counter
 				
 				
 				if (input_signal = '0') then
@@ -135,6 +136,7 @@ begin
 				mux_A_sel  <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
+				i_counter <= "01"; -- Do nothing with counter
 				
 				if (input_signal = '0') then
 					next_state <= IDLE;
@@ -151,6 +153,7 @@ begin
 				mux_A_sel  <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
+				i_counter <= "01"; -- Do nothing with counter
 				
 				if (input_signal = '0') then
 					next_state <= IDLE;
@@ -158,7 +161,8 @@ begin
 					if (signed(csa_sum)) < 0 then
 						enable_reg <= '0';
 						if to_integer(counter) < 255 then
-							counter    <= counter + '1';
+							-- counter    <= counter + '1';
+							i_counter <= "11"; -- Increment counter
 							next_state <= TWO_A;
 							enable_reg <= '0';
 						else
@@ -176,6 +180,7 @@ begin
 			    mux_A_sel  <= "10"; -- Select -N
 			    enable_reg    <= '0';
 			    reset_reg     <= '1';
+			    i_counter <= "01"; -- Do nothing with counter
 			    			    
 				next_state <= TWO_D;
 
@@ -185,6 +190,7 @@ begin
 				mux_A_sel     <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
+				i_counter <= "01"; -- Do nothing with counter
 				
 				if (input_signal = '0') then
 					next_state <= IDLE;
@@ -195,7 +201,8 @@ begin
 						enable_reg <= '1';
 					end if;
 					if to_integer(counter) < 255 then
-						counter    <= counter + '1';
+						-- counter    <= counter + '1';
+						i_counter <= "11"; -- Increment counter
 						next_state <= TWO_A;
 					else
 						next_state <= THREE;
@@ -208,6 +215,7 @@ begin
 				mux_A_sel  <= "10"; -- Select -N
 				enable_reg <= '0';
 				reset_reg     <= '1';
+				i_counter <= "01"; -- Do nothing with counter
 				
 				if (input_signal = '0') then
 					output_signal <= '0';
@@ -223,6 +231,7 @@ begin
 				mux_A_sel  <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
+				i_counter <= "01"; -- Do nothing with counter
 				
 				next_state    <= IDLE;
 		end case;
@@ -235,8 +244,12 @@ begin
 			current_state <= IDLE;
 		elsif rising_edge(clk) then
 			current_state <= next_state;
+			if (i_counter = "00") then
+                counter <= (others => '0');
+            elsif (i_counter = "11") then
+                counter <= counter + 1;
+            end if;
 		end if;
 	end process SyncProc;
 
-	csa_TOTAL <= TO_INTEGER(signed(csa_sum));
 end Behavioral;

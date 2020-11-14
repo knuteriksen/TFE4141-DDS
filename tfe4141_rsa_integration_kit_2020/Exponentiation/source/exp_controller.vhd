@@ -67,7 +67,9 @@ architecture Behavioral of exp_controller is
 	type state is (IDLE, ONE, TWO, WRITE_TWO, THREE, WRITE_THREE, FOUR);
 	signal current_state, next_state : state;
 	signal counter                   : unsigned(7 downto 0);
-	signal i_msgout_last : std_logic;
+	signal update_msgout_last             : std_logic;
+	signal i_counter                 : std_logic_vector(1 downto 0);
+	signal prev_enable_multiplication: std_logic;
 
 begin
 
@@ -80,20 +82,19 @@ begin
 				    mux_X_sel <= "00";
 				    enable_reg_P <= '0';
 				    enable_reg_X <= '0';
-				    
-					output_signal         <= '0';
-					enable_multiplication <= '0';
+				    enable_multiplication <= '0';
 					enable_squaring       <= '0';
-					counter      <= (others => '0');
-
+                    i_counter <= "00"; -- Reset counter
+                    output_signal         <= '0';
+                    
 					if valid_in = '1' then
 						next_state    <= ONE;
 						ready_in      <= '0';
-						i_msgout_last <= msgin_last;    
+						update_msgout_last <= '1';    
 					else
 						next_state <= IDLE;
 						ready_in <= '1';
-						i_msgout_last <= '0';
+						update_msgout_last <= '0';
 					end if;
 
 
@@ -106,12 +107,10 @@ begin
                             output_signal         <= '0';
                             enable_multiplication <= '0';
 					        enable_squaring       <= '0';
-                            counter      <= counter + 0;
+                            i_counter <= "01"; -- Do nothing with counter
+                            update_msgout_last <= '0';
                             
                             next_state   <= TWO;
-
-
-
 
 
 				when TWO =>
@@ -121,18 +120,15 @@ begin
 						enable_reg_X <= '0';
 						output_signal         <= '0';
 						enable_squaring <= '1';
-						counter      <= counter + 0;
+						i_counter <= "01"; -- Do nothing with counter
+						enable_multiplication <= '0';
 						ready_in      <= '0';
 						next_state      <= WRITE_TWO;
+						update_msgout_last <= '0';
 						
 						if key(TO_INTEGER(counter)) = '1' then
 							enable_multiplication <= '1';
-						else
-							enable_multiplication <= '0';
-						end if;
-						
-
-
+						end if;				
 
 				
 				when WRITE_TWO =>
@@ -142,10 +138,11 @@ begin
 				        enable_reg_X          <= '0';
 				        output_signal         <= '0';
 				        enable_squaring       <= '1';
-				        counter      <= counter + 0;
+				        i_counter <= "01"; -- Do nothing with counter
 				        ready_in      <= '0';
+				        update_msgout_last <= '0';
 				        
-				        if (enable_multiplication = '1') then
+				        if (prev_enable_multiplication = '1') then
 				            enable_multiplication <= '1';
 				        else
 				            enable_multiplication <= '0';
@@ -161,7 +158,7 @@ begin
 									enable_squaring       <= '0';
 									enable_multiplication <= '0';
 									if (to_integer(counter) < C_block_size - 2) then
-										counter    <= counter + 1;
+										i_counter <= "11"; -- Increment counter
 										next_state <= TWO;
 									else
 										next_state <= THREE;
@@ -173,7 +170,7 @@ begin
 
 							else -- Squaring done and multiplication_enable = 0
 								if (to_integer(counter) < C_block_size - 2) then
-									counter    <= counter + 1;
+									i_counter <= "11"; -- Increment counter
 									next_state <= TWO;
 								else
 									next_state <= THREE;
@@ -198,8 +195,9 @@ begin
 						enable_reg_X <= '0';
 						output_signal         <= '0';
 						enable_squaring <= '0';
-						counter      <= counter + 0;
+						i_counter <= "01"; -- Do nothing with counter
 						ready_in      <= '0';
+						update_msgout_last <= '0';
 
 						if (key(C_block_size - 1) = '1') then
 							enable_multiplication <= '1';
@@ -220,8 +218,9 @@ begin
 				        enable_reg_X <= '0';
 				        output_signal         <= '0';
 				        enable_squaring <= '0';
-				        counter      <= counter + 0;
+				        i_counter <= "01"; -- Do nothing with counter
 				        ready_in      <= '0';
+				        update_msgout_last <= '0';
 
 						if (multiplication_done = '1') then
 							enable_multiplication <= '0';
@@ -245,7 +244,8 @@ begin
 						enable_squaring <= '0';
 						enable_multiplication <= '0';
 						output_signal <= '1';
-						counter      <= counter + 0;						
+						i_counter <= "01"; -- Do nothing with counter		
+						update_msgout_last <= '0';				
 
 						if (ready_out = '1') then
 							ready_in   <= '1';
@@ -263,9 +263,9 @@ begin
 				    output_signal         <= '0';
 				    enable_squaring <= '0';
                     enable_multiplication <= '0';
-                    counter      <= counter + 0;
+                    i_counter <= "01"; -- Do nothing with counter
                     ready_in      <= '0';
-				    
+				    update_msgout_last <= '0';
 					next_state <= IDLE;
 			
 			end case;
@@ -278,7 +278,15 @@ begin
 			current_state <= IDLE;
 		elsif rising_edge(clk) then
 			current_state <= next_state;
-            msgout_last <= i_msgout_last;			         
+            prev_enable_multiplication <= enable_multiplication;
+            if (update_msgout_last = '1') then
+                msgout_last <= msgin_last;
+            end if;
+            if (i_counter = "00") then
+                counter <= (others => '0');
+            elsif (i_counter = "11") then
+                counter <= counter + 1;
+            end if;
 		end if;
 	end process SyncProc;
 
