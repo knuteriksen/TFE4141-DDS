@@ -1,10 +1,10 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
--- Date        : Sat Nov 14 12:27:30 2020
+-- Date        : Sat Nov 14 19:17:17 2020
 -- Host        : DESKTOP-P441D4V running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
---               c:/tfe4141_rsa_integration_kit_2020_1/RSA_soc/boards/ip/rsa_soc_processing_system7_0_0/rsa_soc_processing_system7_0_0_stub.vhdl
+--               c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_soc/boards/ip/rsa_soc_processing_system7_0_0/rsa_soc_processing_system7_0_0_stub.vhdl
 -- Design      : rsa_soc_processing_system7_0_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg400-1
