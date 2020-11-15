@@ -1,17 +1,17 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
+-- Company:
+-- Engineer:
+--
 -- Create Date: 23.10.2020 11:56:02
--- Design Name: 
+-- Design Name:
 -- Module Name: modpro_controller - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
+-- Project Name:
+-- Target Devices:
+-- Tool Versions:
+-- Description:
+--
+-- Dependencies:
+--
 -- Revision:
 -- Revision 0.01 - File Created
 -- Additional Comments:
@@ -19,15 +19,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.numeric_std.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity modpro_controller is
 	generic (
@@ -50,14 +41,12 @@ entity modpro_controller is
 		reg_S_out     : in  std_logic_vector(Max_bits downto 0);
 
 		-- MUX select
-		mux_S_sel    : out std_logic_vector(1 downto 0);
+		mux_S_sel     : out std_logic_vector(1 downto 0);
 		mux_A_sel     : out std_logic_vector(1 downto 0);
 
 		-- Register enable and reset
 		enable_reg    : out std_logic;
 		reset_reg     : out std_logic
-		--enable_csa_temp_reg : out std_logic;
-		--reset_csa_temp_reg : out std_logic
 	);
 
 end entity modpro_controller;
@@ -70,7 +59,7 @@ architecture Behavioral of modpro_controller is
 	signal current_state, next_state : state;
 
 	signal counter                   : unsigned(7 downto 0);
-    signal i_counter                 : std_logic_vector(1 downto 0);
+	signal i_counter                 : std_logic_vector(1 downto 0);
 
 begin
 
@@ -78,47 +67,43 @@ begin
 	begin
 		case (current_state) is
 
-				-- READY AND WAITING TO START MODPRO"
+				-- READY AND WAITING TO START MODPRO
 			when IDLE =>
 				output_signal <= '0';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel <= "01"; -- Select A
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "01"; -- Select A
 				enable_reg    <= '0';
-				reset_reg  <= '1';
-				i_counter <= "00"; -- Reset counter
-				
+				reset_reg     <= '1';
+				i_counter     <= "00"; -- Reset counter
+
 				if (input_signal = '0') then
 					next_state <= IDLE;
-					-- counter    <= (others => '0');
 				else
 					next_state <= ONE;
 				end if;
 
 			when ONE =>
 				output_signal <= '0';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel <= "01"; -- Select A
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "01"; -- Select A
 				enable_reg    <= '0';
-				reset_reg  <= '1';
-				i_counter <= "01"; -- Do nothing with counter
-				
+				reset_reg     <= '1';
+				i_counter     <= "01"; -- Do nothing with counter
+
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
 					reset_reg  <= '0';
-					-- counter    <= (others => '0');
 					next_state <= TWO_A;
 				end if;
 
 			when TWO_A =>
 				output_signal <= '0';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel <= "01"; -- Select A
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "01"; -- Select A
 				enable_reg    <= '0';
 				reset_reg     <= '1';
-				i_counter <= "01"; -- Do nothing with counter
-				
-				
+				i_counter     <= "01"; -- Do nothing with counter
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -134,17 +119,16 @@ begin
 
 			when TWO_B =>
 				output_signal <= '0';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel  <= "10"; -- Select -N
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
-				
-				i_counter <= "01"; -- Do nothing with counter
-				
+				i_counter     <= "01"; -- Do nothing with counter
+
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
-					mux_S_sel <= "10"; -- Select register S
+					mux_S_sel  <= "10"; -- Select register S
 					mux_A_sel  <= "10"; -- Select -N
 					next_state <= TWO_C;
 
@@ -152,20 +136,19 @@ begin
 
 			when TWO_C =>
 				output_signal <= '0';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel  <= "10"; -- Select -N
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
-				i_counter <= "01"; -- Do nothing with counter
-				
+				i_counter     <= "01"; -- Do nothing with counter
+
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
 					if (signed(csa_sum)) < 0 then
 						enable_reg <= '0';
 						if to_integer(counter) < 255 then
-							-- counter    <= counter + '1';
-							i_counter <= "11"; -- Increment counter
+							i_counter  <= "11"; -- Increment counter
 							next_state <= TWO_A;
 							enable_reg <= '0';
 						else
@@ -178,14 +161,14 @@ begin
 				end if;
 
 			when C_POS =>
-			    output_signal <= '0';
-			    mux_S_sel <= "10"; -- Select register S
-			    mux_A_sel  <= "10"; -- Select -N
-			    enable_reg    <= '0';
-			    reset_reg     <= '1';
-			    i_counter <= "01"; -- Do nothing with counter
-			    			    
-				next_state <= TWO_D;
+				output_signal <= '0';
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "10"; -- Select -N
+				enable_reg    <= '0';
+				reset_reg     <= '1';
+				i_counter     <= "01"; -- Do nothing with counter
+
+				next_state    <= TWO_D;
 
 			when TWO_D =>
 				output_signal <= '0';
@@ -193,8 +176,8 @@ begin
 				mux_A_sel     <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
-				i_counter <= "01"; -- Do nothing with counter
-				
+				i_counter     <= "01"; -- Do nothing with counter
+
 				if (input_signal = '0') then
 					next_state <= IDLE;
 				else
@@ -204,8 +187,7 @@ begin
 						enable_reg <= '1';
 					end if;
 					if to_integer(counter) < 255 then
-						-- counter    <= counter + '1';
-						i_counter <= "11"; -- Increment counter
+						i_counter  <= "11"; -- Increment counter
 						next_state <= TWO_A;
 					else
 						next_state <= THREE;
@@ -214,12 +196,12 @@ begin
 
 			when THREE =>
 				output_signal <= '1';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel  <= "10"; -- Select -N
-				enable_reg <= '0';
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "10"; -- Select -N
+				enable_reg    <= '0';
 				reset_reg     <= '1';
-				i_counter <= "01"; -- Do nothing with counter
-				
+				i_counter     <= "01"; -- Do nothing with counter
+
 				if (input_signal = '0') then
 					output_signal <= '0';
 					next_state    <= IDLE;
@@ -230,12 +212,12 @@ begin
 
 			when others =>
 				output_signal <= '0';
-				mux_S_sel <= "10"; -- Select register S
-				mux_A_sel  <= "10"; -- Select -N
+				mux_S_sel     <= "10"; -- Select register S
+				mux_A_sel     <= "10"; -- Select -N
 				enable_reg    <= '0';
 				reset_reg     <= '1';
-				i_counter <= "01"; -- Do nothing with counter
-				
+				i_counter     <= "01"; -- Do nothing with counter
+
 				next_state    <= IDLE;
 		end case;
 
@@ -248,10 +230,10 @@ begin
 		elsif rising_edge(clk) then
 			current_state <= next_state;
 			if (i_counter = "00") then
-                counter <= (others => '0');
-            elsif (i_counter = "11") then
-                counter <= counter + 1;
-            end if;
+				counter <= (others => '0');
+			elsif (i_counter = "11") then
+				counter <= counter + 1;
+			end if;
 		end if;
 	end process SyncProc;
 
