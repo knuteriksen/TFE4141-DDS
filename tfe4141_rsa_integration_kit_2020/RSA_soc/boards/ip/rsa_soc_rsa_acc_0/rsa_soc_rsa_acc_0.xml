@@ -127,7 +127,7 @@
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.M00_AXIS.FREQ_HZ">40000000</spirit:value>
+          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.M00_AXIS.FREQ_HZ">62500000</spirit:value>
           <spirit:vendorExtensions>
             <xilinx:parameterInfo>
               <xilinx:parameterUsage>none</xilinx:parameterUsage>
@@ -294,7 +294,7 @@
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.S00_AXIS.FREQ_HZ">40000000</spirit:value>
+          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.S00_AXIS.FREQ_HZ">62500000</spirit:value>
           <spirit:vendorExtensions>
             <xilinx:parameterInfo>
               <xilinx:parameterUsage>none</xilinx:parameterUsage>
@@ -521,7 +521,7 @@
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.S00_AXI.FREQ_HZ">40000000</spirit:value>
+          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.S00_AXI.FREQ_HZ">62500000</spirit:value>
           <spirit:vendorExtensions>
             <xilinx:parameterInfo>
               <xilinx:parameterUsage>none</xilinx:parameterUsage>
@@ -840,7 +840,7 @@
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.CLK.FREQ_HZ">40000000</spirit:value>
+          <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="BUSIFPARAM_VALUE.CLK.FREQ_HZ">62500000</spirit:value>
           <spirit:vendorExtensions>
             <xilinx:parameterInfo>
               <xilinx:parameterUsage>none</xilinx:parameterUsage>
@@ -920,7 +920,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Nov 14 18:12:59 UTC 2020</spirit:value>
+            <spirit:value>Sat Nov 14 20:10:33 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -951,7 +951,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Nov 14 18:12:59 UTC 2020</spirit:value>
+            <spirit:value>Sat Nov 14 20:10:33 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -970,7 +970,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Nov 14 18:12:59 UTC 2020</spirit:value>
+            <spirit:value>Sat Nov 14 20:10:33 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -990,7 +990,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Nov 14 18:12:59 UTC 2020</spirit:value>
+            <spirit:value>Sat Nov 14 20:10:33 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -1008,7 +1008,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Nov 14 18:19:11 UTC 2020</spirit:value>
+            <spirit:value>Sat Nov 14 20:16:38 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
@@ -1787,14 +1787,14 @@
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>2</xilinx:coreRevision>
       <xilinx:tags>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a5355fe_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@44e9baae_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@167cac0a_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d68b9da_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@4d2f4ced_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@64fbd3be_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@3d9cefda_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@45f88353_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36f43356_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ee63297_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6711e85a_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5dfc725e_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4a5f73bf_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72b8da99_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@493ec6aa_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b88abf8_ARCHIVE_LOCATION">c:/Xilinx/tfe4141_rsa_integration_kit_2020/RSA_accelerator/IP</xilinx:tag>
       </xilinx:tags>
       <xilinx:configElementInfos>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.CLK.ASSOCIATED_BUSIF" xilinx:valuePermission="bd_and_user"/>
@@ -1816,12 +1816,12 @@
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.M00_AXIS.TID_WIDTH" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.M00_AXIS.TUSER_WIDTH" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.RESET_N.POLARITY" xilinx:valueSource="constant_prop" xilinx:valuePermission="bd_and_user"/>
-        <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.ADDR_WIDTH" xilinx:valueSource="auto" xilinx:valuePermission="bd_and_user"/>
+        <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.ADDR_WIDTH" xilinx:valueSource="auto" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.ARUSER_WIDTH" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.AWUSER_WIDTH" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.BUSER_WIDTH" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.CLK_DOMAIN" xilinx:valueSource="default_prop" xilinx:valuePermission="bd_and_user"/>
-        <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.DATA_WIDTH" xilinx:valueSource="auto" xilinx:valuePermission="bd_and_user"/>
+        <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.DATA_WIDTH" xilinx:valueSource="auto" xilinx:valuePermission="bd"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.FREQ_HZ" xilinx:valueSource="user_prop" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.HAS_BRESP" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.S00_AXI.HAS_BURST" xilinx:valueSource="constant" xilinx:valuePermission="bd_and_user"/>
